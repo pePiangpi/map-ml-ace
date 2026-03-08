@@ -119,6 +119,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     alternatives: ['DynamoDB', 'RDS'],
     quiz: { question: 'What type of data is Timestream optimized for?', options: ['Graph data', 'Time-series data', 'Document data', 'Key-value data'], correct: 1, explanation: 'Timestream is purpose-built for time-series data with automatic data lifecycle management.' }
   },
+  'documentdb': { id: 'documentdb', name: 'Amazon DocumentDB', layer: 'Data Storage', layerColor: 'node-storage',
+    simple: 'DocumentDB stores data as flexible documents (like JSON files) — great for data that doesn\'t fit into neat rows and columns.',
+    exam: 'Amazon DocumentDB is a MongoDB-compatible, fully managed document database service designed for JSON workloads at scale.',
+    whenToUse: 'When your ML training data is in JSON/document format and you need MongoDB compatibility.',
+    examTrap: 'DocumentDB is MongoDB-compatible. DynamoDB is key-value. If the exam mentions MongoDB, think DocumentDB.',
+    alternatives: ['DynamoDB', 'MongoDB on EC2'],
+    quiz: { question: 'What database is DocumentDB compatible with?', options: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis'], correct: 2, explanation: 'DocumentDB is designed to be compatible with MongoDB APIs and workloads.' }
+  },
 
   // LAYER 3 - Data Ingestion
   'kinesis-streams': { id: 'kinesis-streams', name: 'Kinesis Data Streams', layer: 'Data Ingestion', layerColor: 'node-ingestion',
@@ -169,6 +177,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     alternatives: ['DataSync', 'Snowmobile'],
     quiz: { question: 'When should you use Snowball instead of DataSync?', options: ['Always', 'For small files', 'When bandwidth is limited for large datasets', 'For real-time data'], correct: 2, explanation: 'Snowball is ideal when network bandwidth is insufficient for transferring large datasets (10+ TB).' }
   },
+  'transfer-family': { id: 'transfer-family', name: 'AWS Transfer Family', layer: 'Data Ingestion', layerColor: 'node-ingestion',
+    simple: 'Transfer Family lets you use familiar file transfer protocols (like SFTP) to move data into S3 — no code needed.',
+    exam: 'AWS Transfer Family provides fully managed SFTP, FTPS, FTP, and AS2 protocol support for file transfers directly into S3 or EFS.',
+    whenToUse: 'When partners or legacy systems need to send data using traditional file transfer protocols.',
+    examTrap: 'Transfer Family is for protocol-based transfers. DataSync is for automated bulk migration. Different use cases.',
+    alternatives: ['DataSync', 'S3 API'],
+    quiz: { question: 'Which protocols does AWS Transfer Family support?', options: ['Only SFTP', 'SFTP and FTPS only', 'SFTP, FTPS, FTP, and AS2', 'HTTP and HTTPS'], correct: 2, explanation: 'Transfer Family supports SFTP, FTPS, FTP, and AS2 protocols.' }
+  },
 
   // LAYER 4 - Data Processing
   'glue': { id: 'glue', name: 'AWS Glue', layer: 'Data Processing', layerColor: 'node-processing',
@@ -194,6 +210,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     examTrap: 'EMR = full cluster control. EMR Serverless = no cluster management. Know when the exam asks for each.',
     alternatives: ['Glue', 'EMR Serverless'],
     quiz: { question: 'Which framework is most commonly used on EMR for ML?', options: ['Hadoop MapReduce', 'Apache Spark', 'Apache Hive', 'Presto'], correct: 1, explanation: 'Apache Spark with its MLlib library is the most common ML framework on EMR.' }
+  },
+  'emr-serverless': { id: 'emr-serverless', name: 'EMR Serverless', layer: 'Data Processing', layerColor: 'node-processing',
+    simple: 'EMR Serverless gives you the power of Spark without managing any servers — just submit your job and go.',
+    exam: 'EMR Serverless automatically provisions and scales compute resources for Spark and Hive applications without managing clusters.',
+    whenToUse: 'When you want Spark/Hive processing power without cluster management overhead.',
+    examTrap: 'EMR Serverless = no cluster. EMR = managed cluster. If the question says "minimize operational overhead," think EMR Serverless.',
+    alternatives: ['EMR', 'Glue'],
+    quiz: { question: 'What is the key advantage of EMR Serverless over EMR?', options: ['Higher performance', 'No cluster management', 'More framework support', 'Lower cost always'], correct: 1, explanation: 'EMR Serverless eliminates the need to manage clusters while still running Spark/Hive jobs.' }
   },
   'lambda': { id: 'lambda', name: 'AWS Lambda', layer: 'Data Processing', layerColor: 'node-processing',
     simple: 'Lambda runs small pieces of code without you needing a server. Like a magic button that runs your code when triggered.',
@@ -237,6 +261,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     alternatives: ['Random oversampling', 'Random undersampling', 'Class weights'],
     quiz: { question: 'How does SMOTE differ from random oversampling?', options: ['It\'s faster', 'It creates synthetic samples', 'It removes data', 'It changes labels'], correct: 1, explanation: 'SMOTE creates NEW synthetic samples by interpolating between existing minority samples, while oversampling duplicates existing ones.' }
   },
+  'categorical-encoding': { id: 'categorical-encoding', name: 'Categorical Encoding', layer: 'Feature Engineering', layerColor: 'node-feature',
+    simple: 'ML models only understand numbers. Encoding converts categories like "Monday, Tuesday" into numbers the model can use.',
+    exam: 'Categorical encoding methods: One-hot encoding creates binary columns per category. Label encoding assigns ordinal integers. One-hot is preferred for nominal data without order.',
+    whenToUse: 'When your dataset has text categories that need to be converted to numerical features for model training.',
+    examTrap: 'One-hot encoding for nominal features (days of week). Label encoding for ordinal features (low/medium/high). The exam tests this distinction.',
+    alternatives: ['One-hot encoding', 'Label encoding', 'Binary encoding'],
+    quiz: { question: 'Which encoding is best for days of the week (no order)?', options: ['Label encoding', 'One-hot encoding', 'Binary encoding', 'Tokenization'], correct: 1, explanation: 'One-hot encoding is used for nominal (no order) categorical data. Days of the week have no inherent order.' }
+  },
 
   // LAYER 6 - Feature Store
   'feature-store': { id: 'feature-store', name: 'SageMaker Feature Store', layer: 'Feature Store', layerColor: 'node-ingestion',
@@ -256,6 +288,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     examTrap: 'Training data MUST be in S3 (or EFS/FSx). Model artifacts are ALWAYS saved to S3. The exam assumes this.',
     alternatives: ['EMR with Spark MLlib', 'EC2 with custom setup'],
     quiz: { question: 'Where are SageMaker model artifacts stored?', options: ['EBS', 'DynamoDB', 'S3', 'EFS'], correct: 2, explanation: 'SageMaker always saves trained model artifacts (model.tar.gz) to an S3 bucket you specify.' }
+  },
+  'sagemaker-studio': { id: 'sagemaker-studio', name: 'SageMaker Studio', layer: 'Model Training', layerColor: 'node-training',
+    simple: 'SageMaker Studio is like a full science lab in the cloud — notebooks, experiments, and deployment tools all in one place.',
+    exam: 'SageMaker Studio is an integrated ML development environment providing notebooks, debugging, profiling, pipeline management, and model registry access.',
+    whenToUse: 'As the central workspace for ML development in AWS — supports the entire ML lifecycle from data prep to deployment.',
+    examTrap: 'Studio creates an EFS volume automatically for each user domain. Studio Notebooks are NOT the same as SageMaker Notebook Instances.',
+    alternatives: ['SageMaker Notebook Instances', 'EC2 with Jupyter'],
+    quiz: { question: 'What file system does SageMaker Studio automatically create?', options: ['S3', 'EBS', 'EFS', 'FSx'], correct: 2, explanation: 'Each SageMaker Studio domain automatically creates an EFS volume for persistent storage.' }
   },
   'xgboost': { id: 'xgboost', name: 'XGBoost', layer: 'Model Training', layerColor: 'node-training',
     simple: 'XGBoost is like a team of decision-making trees that vote together. Each new tree learns from the mistakes of the previous ones.',
@@ -301,6 +341,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     alternatives: ['PR-AUC', 'F1 Score'],
     quiz: { question: 'What AUC score indicates random guessing?', options: ['0.0', '0.25', '0.5', '1.0'], correct: 2, explanation: 'An AUC of 0.5 means the model performs no better than random chance.' }
   },
+  'rmse': { id: 'rmse', name: 'RMSE / Regression Metrics', layer: 'Model Evaluation', layerColor: 'node-evaluation',
+    simple: 'RMSE tells you how far off your predictions are on average. Lower = better. Like measuring how close your darts land to the bullseye.',
+    exam: 'RMSE (Root Mean Square Error) measures prediction error magnitude for regression. RMSE penalizes large errors more than MAE.',
+    whenToUse: 'For regression model evaluation. Use RMSE when large errors are particularly undesirable.',
+    examTrap: 'Use Accuracy for classification. Use RMSE for regression (continuous numeric predictions). The exam tests this distinction.',
+    alternatives: ['MAE', 'MAPE', 'R-squared'],
+    quiz: { question: 'Which metric is appropriate for regression models?', options: ['Accuracy', 'AUC', 'RMSE', 'F1 Score'], correct: 2, explanation: 'RMSE is used for regression (continuous values), while Accuracy and AUC are for classification.' }
+  },
 
   // LAYER 10 - Model Management
   'sagemaker-pipelines': { id: 'sagemaker-pipelines', name: 'SageMaker Pipelines', layer: 'Model Management', layerColor: 'node-management',
@@ -318,6 +366,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     examTrap: 'Models must be in "Approved" status in the Registry before deployment. This is part of ML governance.',
     alternatives: ['Custom model tracking in S3'],
     quiz: { question: 'What status must a model have before deployment?', options: ['Pending', 'Draft', 'Approved', 'Archived'], correct: 2, explanation: 'Models must be approved in the Model Registry before they can be deployed to production endpoints.' }
+  },
+  'step-functions': { id: 'step-functions', name: 'AWS Step Functions', layer: 'Model Management', layerColor: 'node-management',
+    simple: 'Step Functions is like a flowchart that runs automatically — if this happens, do that, then do this next.',
+    exam: 'AWS Step Functions orchestrates Lambda, ECS, Glue, and SageMaker APIs. General-purpose serverless workflow orchestration.',
+    whenToUse: 'For complex multi-service workflows that go beyond SageMaker, like combining Lambda, Glue, and SageMaker steps.',
+    examTrap: 'Step Functions = general orchestration. SageMaker Pipelines = ML-specific orchestration. If purely ML → Pipelines. Mixed services → Step Functions.',
+    alternatives: ['SageMaker Pipelines', 'Apache Airflow (MWAA)'],
+    quiz: { question: 'When should you use Step Functions instead of SageMaker Pipelines?', options: ['Always for ML', 'When orchestrating multiple non-SageMaker services', 'For model training only', 'For data storage'], correct: 1, explanation: 'Step Functions is better for orchestrating mixed workflows involving multiple AWS services beyond SageMaker.' }
   },
 
   // LAYER 11 - Model Deployment
@@ -341,9 +397,17 @@ export const servicesData: Record<string, ServiceInfo> = {
     simple: 'Instead of having one server per model, Multi-Model Endpoints let you host thousands of models on one server — like a hotel with many rooms.',
     exam: 'Multi-Model Endpoints host multiple models on a single endpoint, dynamically loading/unloading models from S3. Cost-effective for many models.',
     whenToUse: 'When you have hundreds or thousands of similar models (e.g., per-customer models) and want to save costs.',
-    examTrap: '"Many small models" or "per-tenant models" = Multi-Model Endpoint. This is a HIGH-FREQUENCY exam pattern.',
+    examTrap: '"Many small models" or "per-tenant models" = Multi-Model Endpoint. This is a HIGH-FREQUENCY exam pattern. All models MUST use the same container image.',
     alternatives: ['Multiple single-model endpoints'],
     quiz: { question: 'What is the key benefit of Multi-Model Endpoints?', options: ['Faster inference', 'Cost savings with many models', 'Better accuracy', 'Auto-scaling'], correct: 1, explanation: 'Multi-Model Endpoints reduce costs by hosting many models on shared infrastructure instead of dedicated endpoints per model.' }
+  },
+  'multi-container': { id: 'multi-container', name: 'Multi-Container Endpoints', layer: 'Model Deployment', layerColor: 'node-deployment',
+    simple: 'Multi-Container lets you run different model frameworks on one endpoint — like a food court with different restaurants.',
+    exam: 'Multi-Container Endpoints host up to 15 containers with different frameworks behind a single endpoint using serial or direct invocation.',
+    whenToUse: 'When deploying models built with different frameworks that need to share an endpoint or run in sequence (inference pipeline).',
+    examTrap: 'Multi-Model = same framework, many models. Multi-Container = different frameworks, few models. Key exam distinction!',
+    alternatives: ['Multi-Model Endpoints', 'Separate endpoints'],
+    quiz: { question: 'What problem do Multi-Container Endpoints solve?', options: ['Hosting many same-framework models', 'Hosting models from different frameworks', 'Batch processing', 'Auto-scaling'], correct: 1, explanation: 'Multi-Container Endpoints allow hosting models built with different frameworks (e.g., TensorFlow + XGBoost) on one endpoint.' }
   },
   'async-inference': { id: 'async-inference', name: 'Async Inference', layer: 'Model Deployment', layerColor: 'node-deployment',
     simple: 'Async Inference is like dropping off your laundry — you leave it, and it notifies you when it\'s ready.',
@@ -379,6 +443,14 @@ export const servicesData: Record<string, ServiceInfo> = {
     alternatives: ['Model Monitor for ML metrics', 'X-Ray for tracing'],
     quiz: { question: 'What does CloudWatch monitor in ML?', options: ['Data drift', 'Model accuracy', 'Infrastructure metrics and endpoint health', 'Feature importance'], correct: 2, explanation: 'CloudWatch monitors infrastructure-level metrics like CPU utilization, memory, latency, and error rates for ML endpoints.' }
   },
+  'sagemaker-clarify': { id: 'sagemaker-clarify', name: 'SageMaker Clarify', layer: 'Monitoring', layerColor: 'node-monitoring',
+    simple: 'Clarify checks if your model is being fair — like a referee making sure the game isn\'t biased toward one team.',
+    exam: 'SageMaker Clarify provides bias detection and explainability for ML models. Generates SHAP values for feature attribution.',
+    whenToUse: 'When you need to detect bias in data/models or explain model predictions to regulators.',
+    examTrap: 'Clarify = bias & explainability. Model Monitor = drift detection. If the question asks about bias metrics, think Clarify.',
+    alternatives: ['Model Monitor (for drift)', 'Custom SHAP analysis'],
+    quiz: { question: 'What explainability method does Clarify use?', options: ['LIME', 'SHAP', 'Gradient-based', 'Decision trees'], correct: 1, explanation: 'SageMaker Clarify uses SHAP (SHapley Additive exPlanations) values for model explainability.' }
+  },
 };
 
 export const layerOrder = [
@@ -413,18 +485,95 @@ export const layerColors: Record<string, string> = {
 
 export const layerServices: Record<string, string[]> = {
   'Data Sources': ['applications', 'databases', 'iot-devices', 'streaming'],
-  'Data Storage': ['s3', 'redshift', 'dynamodb', 'rds', 'aurora', 'efs', 'fsx', 'opensearch', 'timestream'],
-  'Data Ingestion': ['kinesis-streams', 'kinesis-firehose', 'msk', 'flink', 'datasync', 'snowball'],
-  'Data Processing': ['glue', 'glue-databrew', 'emr', 'lambda', 'athena'],
-  'Feature Engineering': ['data-wrangler', 'feature-scaling', 'smote'],
+  'Data Storage': ['s3', 'redshift', 'dynamodb', 'rds', 'aurora', 'efs', 'fsx', 'opensearch', 'timestream', 'documentdb'],
+  'Data Ingestion': ['kinesis-streams', 'kinesis-firehose', 'msk', 'flink', 'datasync', 'snowball', 'transfer-family'],
+  'Data Processing': ['glue', 'glue-databrew', 'emr', 'emr-serverless', 'lambda', 'athena'],
+  'Feature Engineering': ['data-wrangler', 'feature-scaling', 'smote', 'categorical-encoding'],
   'Feature Store': ['feature-store'],
-  'Model Training': ['sagemaker-training', 'xgboost', 'bias-variance'],
+  'Model Training': ['sagemaker-training', 'sagemaker-studio', 'xgboost', 'bias-variance'],
   'Hyperparameter Tuning': ['auto-tuning'],
-  'Model Evaluation': ['confusion-matrix', 'roc-auc'],
-  'Model Management': ['sagemaker-pipelines', 'model-registry'],
-  'Model Deployment': ['realtime-endpoint', 'batch-transform', 'multi-model', 'async-inference', 'serverless-inference'],
-  'Monitoring': ['model-monitor', 'cloudwatch'],
+  'Model Evaluation': ['confusion-matrix', 'roc-auc', 'rmse'],
+  'Model Management': ['sagemaker-pipelines', 'model-registry', 'step-functions'],
+  'Model Deployment': ['realtime-endpoint', 'batch-transform', 'multi-model', 'multi-container', 'async-inference', 'serverless-inference'],
+  'Monitoring': ['model-monitor', 'cloudwatch', 'sagemaker-clarify'],
 };
+
+export const layerDescriptions: Record<string, { simple: string; exam: string; theory?: string; examTip?: string }> = {
+  'Data Sources': {
+    simple: 'Where does your data come from? Apps, databases, sensors, and streaming feeds all create the raw data your ML model will learn from.',
+    exam: 'Data sources encompass application logs, transactional databases, IoT telemetry, and streaming event sources that feed into the ML data pipeline.',
+    theory: 'Understanding data types is crucial:\n• Structured data: Tables with rows and columns (databases)\n• Semi-structured: JSON, XML, logs\n• Unstructured: Images, video, text\n• Streaming: Continuous, time-ordered event sequences',
+    examTip: 'The exam tests your ability to identify the right ingestion service based on the data source type. Streaming → Kinesis. Batch files → S3. IoT → IoT Core → Kinesis.',
+  },
+  'Data Storage': {
+    simple: 'Think of data storage as different types of warehouses — some are for big, heavy things (data warehouses), some are for quick access (databases), and some are for everything (S3).',
+    exam: 'AWS offers purpose-built storage: S3 (object), Redshift (warehouse), DynamoDB (key-value), RDS/Aurora (relational), EFS/FSx (file), OpenSearch (search), Timestream (time-series).',
+    theory: 'Data lakes vs. data warehouses:\n• Data Lake (S3): Store raw data in any format, schema-on-read\n• Data Warehouse (Redshift): Store processed, structured data, schema-on-write\n• The ML lifecycle typically uses S3 as the central data lake',
+    examTip: 'S3 is the default storage for SageMaker training data and model artifacts. Know when to use each storage service based on access patterns and data types.',
+  },
+  'Data Ingestion': {
+    simple: 'Getting data from where it lives into AWS. Some data comes in continuously (like a river) and some comes in big chunks (like a delivery truck).',
+    exam: 'Ingestion services handle streaming (Kinesis, MSK, Flink) and batch (DataSync, Snowball, Transfer Family) data transfer into AWS storage.',
+    theory: 'Streaming vs. Batch Ingestion:\n• Streaming: Continuous, real-time (Kinesis, MSK)\n• Micro-batch: Near real-time with buffering (Firehose)\n• Batch: Periodic bulk transfers (DataSync, Snowball)\n• Choose based on latency requirements and data volume',
+    examTip: 'Key distinction: Kinesis Data Streams = custom real-time processing. Firehose = managed delivery (60s minimum buffer). MSK = Kafka compatibility.',
+  },
+  'Data Processing': {
+    simple: 'Raw data is messy! This stage cleans, transforms, and organizes it so your ML model can actually learn from it.',
+    exam: 'ETL/ELT processing via Glue (serverless), EMR (managed clusters), Lambda (event-driven), and Athena (serverless SQL queries on S3).',
+    theory: 'ETL Pipeline Concepts:\n• Extract: Pull data from sources\n• Transform: Clean, deduplicate, normalize, join\n• Load: Write processed data to target storage\n\nData quality checks: missing values, outliers, duplicates, schema validation.',
+    examTip: '"No infrastructure management" → Glue. "Full Spark control" → EMR. "Quick SQL queries on S3" → Athena. "Event-driven lightweight processing" → Lambda.',
+  },
+  'Feature Engineering': {
+    simple: 'Features are the clues your model uses to make predictions. Feature engineering is about creating the best possible clues from raw data.',
+    exam: 'Feature engineering transforms raw data into meaningful features. Includes scaling, encoding, imputation, and handling class imbalance.',
+    theory: 'Key techniques:\n• Feature Scaling: Min-Max (0-1) vs Z-score (mean=0, std=1)\n• Categorical Encoding: One-hot (nominal) vs Label (ordinal)\n• Missing Values: Imputation with mean/median (numerical) or mode (categorical)\n• Class Imbalance: SMOTE, oversampling, undersampling, class weights\n• Tree-based algorithms (XGBoost) do NOT need feature scaling',
+    examTip: 'The exam frequently tests: which encoding for nominal vs ordinal data, which algorithms need scaling, and how to handle class imbalance (SMOTE vs oversampling).',
+  },
+  'Feature Store': {
+    simple: 'A centralized library where you store pre-computed features so different models can reuse them — saves time and keeps everything consistent.',
+    exam: 'SageMaker Feature Store provides online (DynamoDB-backed, low-latency) and offline (S3-backed, batch) feature storage for training-serving consistency.',
+    theory: 'Feature consistency matters:\n• Training-serving skew: When features differ between training and inference\n• Feature Store prevents this by serving the same features to both\n• Online Store: Real-time feature retrieval during inference\n• Offline Store: Historical features for batch training',
+    examTip: 'Online Store = DynamoDB (real-time inference). Offline Store = S3 (training). The exam tests when to use each.',
+  },
+  'Model Training': {
+    simple: 'This is where the magic happens — your model learns patterns from data, like a student studying for an exam.',
+    exam: 'SageMaker Training Jobs execute on managed instances, supporting built-in algorithms (XGBoost, Linear Learner), custom containers, and distributed training.',
+    theory: 'Key ML Training Concepts:\n• Training Error: How well the model fits training data\n• Validation Error: How well it generalizes to unseen data\n• Overfitting: Low training error, high validation error → use regularization, dropout, early stopping\n• Underfitting: High training AND validation error → increase model complexity\n• Cross-validation: K-fold splits data into K parts for robust evaluation',
+    examTip: '99% training accuracy + 82% validation accuracy = OVERFITTING. Solution: Dropout, L1/L2 regularization, k-fold cross-validation. NOT adding more layers.',
+  },
+  'Hyperparameter Tuning': {
+    simple: 'Fine-tuning the knobs and dials of your model — like adjusting the temperature and time when baking a cake.',
+    exam: 'SageMaker Automatic Model Tuning uses Bayesian optimization (default) to efficiently search hyperparameter spaces across multiple training jobs.',
+    theory: 'Common hyperparameters:\n• Learning rate: Step size in gradient descent\n• Tree depth (max_depth): Controls XGBoost complexity\n• Regularization (L1/L2): Prevents overfitting\n• Epochs: Number of training passes\n\nSearch strategies:\n• Grid Search: Exhaustive (slow but thorough)\n• Random Search: Faster but less systematic\n• Bayesian: Intelligent, learns from previous trials (SageMaker default)',
+    examTip: 'SageMaker uses Bayesian optimization by default — this is a very common exam question. Bayesian is more efficient because it uses results from prior trials to guide the search.',
+  },
+  'Model Evaluation': {
+    simple: 'After training, you need to grade your model — is it actually good at making predictions?',
+    exam: 'Evaluation metrics include confusion matrix (TP/FP/TN/FN), precision, recall, F1-score, ROC-AUC for classification; RMSE, MAE for regression.',
+    theory: 'Classification Metrics:\n• Precision = TP/(TP+FP) — "Of predicted positives, how many are correct?"\n• Recall = TP/(TP+FN) — "Of actual positives, how many did we find?"\n• F1 = harmonic mean of Precision & Recall\n• ROC-AUC: Overall discriminative ability (0.5 = random, 1.0 = perfect)\n\nRegression Metrics:\n• RMSE: Penalizes large errors more\n• MAE: Average absolute error',
+    examTip: 'Precision-focused: When FP is costly (spam filter — don\'t wrongly block real emails). Recall-focused: When FN is costly (cancer detection — don\'t miss a diagnosis).',
+  },
+  'Model Management': {
+    simple: 'Managing your models like managing versions of a document — track changes, approve releases, automate the whole process.',
+    exam: 'Model management includes SageMaker Pipelines (ML CI/CD), Model Registry (versioning/approval), and Step Functions (general orchestration).',
+    theory: 'MLOps Concepts:\n• CI/CD for ML: Automate training → evaluation → deployment\n• Model versioning: Track model lineage and metadata\n• Approval workflows: Human-in-the-loop for production deployment\n• Pipeline steps: ProcessingStep, TrainingStep, ConditionStep, ModelStep',
+    examTip: 'SageMaker Pipelines for ML-specific workflows. Step Functions for general multi-service orchestration. Model Registry for versioning and approval gates.',
+  },
+  'Model Deployment': {
+    simple: 'Putting your trained model to work! Different deployment options for different needs — instant responses, batch processing, or cost-saving options.',
+    exam: 'Deployment options: Real-Time (persistent), Batch Transform (offline), Multi-Model (many models), Multi-Container (different frameworks), Async (large payloads), Serverless (intermittent).',
+    theory: 'Deployment Decision Tree:\n• Need instant predictions? → Real-Time Endpoint\n• Large offline dataset? → Batch Transform\n• Many similar small models? → Multi-Model Endpoint\n• Different frameworks? → Multi-Container Endpoint\n• Large payloads (>6MB)? → Async Inference\n• Unpredictable/low traffic? → Serverless Inference',
+    examTip: 'HIGH-FREQUENCY exam patterns: "Many per-customer models" → Multi-Model. "Millions overnight" → Batch Transform. "Variable traffic, cost-effective" → Serverless. "Different frameworks" → Multi-Container.',
+  },
+  'Monitoring': {
+    simple: 'Even after deployment, you need to keep watching your model — like a doctor checking on a patient after surgery.',
+    exam: 'Monitoring includes Model Monitor (drift detection), CloudWatch (infrastructure metrics), and Clarify (bias/explainability).',
+    theory: 'Types of Drift:\n• Data Drift: Input feature distribution changes\n• Label Drift: Target variable distribution changes\n• Prediction Drift: Model output distribution changes\n• Concept Drift: Relationship between features and labels changes (P(Y|X) changes)\n\nConcept drift is the MOST TESTED type on the exam.',
+    examTip: 'Model Monitor = ML drift. CloudWatch = infrastructure. Clarify = bias & SHAP explainability. If baseline violations occur after model update → generate new baseline.',
+  },
+};
+
+export const layerIcons: Record<string, any> = {};
 
 export const examPatterns = [
   { pattern: 'Real-time streaming data ingestion', answer: 'Kinesis Data Streams', detail: 'For custom real-time processing with multiple consumers.' },
@@ -442,6 +591,14 @@ export const examPatterns = [
   { pattern: 'Apache Kafka compatible streaming', answer: 'Amazon MSK', detail: 'Managed Kafka for existing Kafka workloads.' },
   { pattern: 'Physical data migration (TB scale)', answer: 'AWS Snowball', detail: 'Ship physical devices for large transfers.' },
   { pattern: 'Visual no-code data preparation', answer: 'Glue DataBrew', detail: '250+ built-in transformations, no coding.' },
+  { pattern: 'Models with different frameworks on one endpoint', answer: 'Multi-Container Endpoint', detail: 'Up to 15 containers with different frameworks.' },
+  { pattern: 'Bias detection and model explainability', answer: 'SageMaker Clarify', detail: 'SHAP values for feature attribution, bias metrics.' },
+  { pattern: 'Identify GPU bottlenecks in training', answer: 'SageMaker Profiler', detail: 'Code-level profiling for training script optimization.' },
+  { pattern: 'Fraud detection, concept change over time', answer: 'Concept Drift', detail: 'P(Y|X) changes — relationship between features and labels shifts.' },
+  { pattern: 'Store model artifacts cost-effectively', answer: 'Amazon S3', detail: 'Default storage for all SageMaker model artifacts.' },
+  { pattern: 'Anomaly detection in unlabeled data', answer: 'Random Cut Forest (RCF)', detail: 'Unsupervised algorithm for detecting irregularities.' },
+  { pattern: 'Customer clustering without labels', answer: 'K-Means', detail: 'Unsupervised clustering algorithm for grouping similar data.' },
+  { pattern: '99% training, 82% validation accuracy', answer: 'Overfitting → Dropout + L1/L2 + Cross-validation', detail: 'High variance problem requiring regularization.' },
 ];
 
 export const serviceComparisons = [
@@ -468,5 +625,23 @@ export const serviceComparisons = [
     { aspect: 'Detects', a: 'Data/model/bias drift', b: 'CPU, memory, latency' },
     { aspect: 'Baselines', a: 'Statistical baselines', b: 'Metric thresholds' },
     { aspect: 'Best For', a: 'Model quality monitoring', b: 'Endpoint health monitoring' },
+  ]},
+  { services: ['Multi-Model Endpoint', 'Multi-Container Endpoint'], criteria: [
+    { aspect: 'Models', a: 'Many (100s-1000s)', b: 'Few (up to 15)' },
+    { aspect: 'Framework', a: 'Same framework required', b: 'Different frameworks OK' },
+    { aspect: 'Loading', a: 'Dynamic from S3', b: 'All loaded at start' },
+    { aspect: 'Best For', a: 'Per-customer models', b: 'Inference pipelines' },
+  ]},
+  { services: ['Glue DataBrew', 'SageMaker Data Wrangler'], criteria: [
+    { aspect: 'Scope', a: 'General data prep', b: 'ML-specific feature engineering' },
+    { aspect: 'Environment', a: 'Standalone', b: 'Inside SageMaker Studio' },
+    { aspect: 'Users', a: 'Data analysts, no ML needed', b: 'Data scientists doing ML' },
+    { aspect: 'Integration', a: 'Glue/S3 ecosystem', b: 'SageMaker ecosystem' },
+  ]},
+  { services: ['Real-Time Endpoint', 'Serverless Inference'], criteria: [
+    { aspect: 'Availability', a: 'Always on', b: 'Scales to zero' },
+    { aspect: 'Latency', a: 'Consistent low latency', b: 'Cold starts possible' },
+    { aspect: 'Cost', a: 'Pay per hour (even idle)', b: 'Pay per request' },
+    { aspect: 'Best For', a: 'High/consistent traffic', b: 'Intermittent/unpredictable traffic' },
   ]},
 ];
