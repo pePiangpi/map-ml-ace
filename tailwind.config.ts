@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +51,27 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        aws: {
+          orange: "hsl(var(--aws-orange))",
+          "orange-glow": "hsl(var(--aws-orange-glow))",
+          blue: "hsl(var(--aws-blue))",
+          "blue-glow": "hsl(var(--aws-blue-glow))",
+          dark: "hsl(var(--aws-dark))",
+          surface: "hsl(var(--aws-surface))",
+        },
+        node: {
+          data: "hsl(var(--node-data))",
+          storage: "hsl(var(--node-storage))",
+          ingestion: "hsl(var(--node-ingestion))",
+          processing: "hsl(var(--node-processing))",
+          feature: "hsl(var(--node-feature))",
+          training: "hsl(var(--node-training))",
+          tuning: "hsl(var(--node-tuning))",
+          evaluation: "hsl(var(--node-evaluation))",
+          management: "hsl(var(--node-management))",
+          deployment: "hsl(var(--node-deployment))",
+          monitoring: "hsl(var(--node-monitoring))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -65,20 +90,12 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
       animation: {
