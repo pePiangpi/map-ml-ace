@@ -40,7 +40,7 @@ export function ExamPatterns() {
 }
 
 export function MockExam() {
-  const { mode } = useLearning();
+  const { mode, saveQuizScore } = useLearning();
   const isExamLens = mode === 'exam';
   const [started, setStarted] = useState(false);
   const [questions, setQuestions] = useState<ExamQuestion[]>([]);
