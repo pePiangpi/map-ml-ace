@@ -269,9 +269,14 @@ function ServiceBlueprint({ serviceName, layer, isExamLens }: { serviceName: str
 }
 
 /* ===== EXAM QUESTION CARD ===== */
-function ExamQuestionCard({ question, isExamLens }: { question: ExamQuestion; isExamLens: boolean }) {
+function ExamQuestionCard({ question, isExamLens, onSelect }: { question: ExamQuestion; isExamLens: boolean; onSelect?: () => void }) {
   const [selected, setSelected] = useState<number | null>(null);
 
+  const handleClick = (i: number) => {
+    if (selected !== null) return;
+    setSelected(i);
+    if (i === question.correct && onSelect) onSelect();
+  };
   return (
     <div className="p-3 rounded-lg border border-border bg-muted/20">
       <div className="flex items-center gap-2 mb-2">
