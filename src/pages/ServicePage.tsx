@@ -155,7 +155,7 @@ export default function ServicePage() {
             <Section title={`How It's Tested (${relevantQuestions.length} Questions)`} isExamLens={isExamLens}>
               <div className="space-y-3">
                 {relevantQuestions.map(q => (
-                  <ExamQuestionCard key={q.id} question={q} isExamLens={isExamLens} />
+                  <ExamQuestionCard key={q.id} question={q} isExamLens={isExamLens} onSelect={() => handleQuestionSelect(q.id)} />
                 ))}
               </div>
             </Section>
