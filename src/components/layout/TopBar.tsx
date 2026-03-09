@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useLearning } from '@/context/LearningContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, BookOpen, Trophy, Home, Map, Search, Target, ArrowLeftRight, FileQuestion, Eye, EyeOff, Layers, Monitor } from 'lucide-react';
+import { Brain, BookOpen, Trophy, Home, Map, Search, Target, ArrowLeftRight, FileQuestion, Eye, EyeOff, Layers, Monitor, Network } from 'lucide-react';
 
 export default function TopBar() {
   const { mode, setMode, progress, completedTopics } = useLearning();
