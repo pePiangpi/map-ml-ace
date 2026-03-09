@@ -29,6 +29,7 @@ export default function ServicePage() {
   const isExamLens = mode === 'exam';
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [consoleHighlight, setConsoleHighlight] = useState<string | null>(null);
 
   const service = serviceId ? servicesData[serviceId] : null;
   if (!service) {
@@ -42,11 +43,20 @@ export default function ServicePage() {
   const layerSlug = service.layer.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const consoleType = getConsoleType(service.layer);
 
-  // Get 2-3 relevant exam questions from local data
   const relevantQuestions = [
     ...getQuestionsByTag(serviceId || ''),
     ...getQuestionsByTag(service.layer),
   ].filter((q, i, arr) => arr.findIndex(x => x.id === q.id) === i).slice(0, 3);
+
+  // Map question IDs to console highlight keys
+  const questionHighlightMap: Record<number, string> = {
+    1: 'approval-status',
+    2: 'warm-pool',
+    3: 'approval-status',
+    4: 'pipe-mode',
+    101: 'approval-status',
+    51: 'warm-pool',
+  };
 
   const handleQuizAnswer = (idx: number) => {
     setQuizAnswer(idx);
@@ -54,6 +64,12 @@ export default function ServicePage() {
     if (idx === service.quiz.correct) {
       markComplete(service.layer);
     }
+  };
+
+  const handleQuestionSelect = (questionId: number) => {
+    const key = questionHighlightMap[questionId] || null;
+    setConsoleHighlight(key);
+    setTimeout(() => setConsoleHighlight(null), 3000);
   };
 
   return (
