@@ -5,8 +5,23 @@ import PageLayout from '@/components/layout/PageLayout';
 import { useLearning } from '@/context/LearningContext';
 import { servicesData } from '@/data/servicesData';
 import { getQuestionsByTag, ExamQuestion } from '@/data/examQuestions';
+import { ServiceIcon, getServiceColor } from '@/components/service/ServiceIcon';
+import MockConsole from '@/components/service/MockConsole';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from '@/components/ui/breadcrumb';
-import { BookOpen, AlertTriangle, Lightbulb, HelpCircle, Layers, CheckCircle, Monitor, FileQuestion } from 'lucide-react';
+import { AlertTriangle, HelpCircle, CheckCircle, FileQuestion, ChevronRight } from 'lucide-react';
+
+// Map service layer to console type
+function getConsoleType(layer: string): 'storage' | 'training' | 'registry' | 'orchestration' {
+  const layerMap: Record<string, 'storage' | 'training' | 'registry' | 'orchestration'> = {
+    'Data Storage': 'storage',
+    'Data Sources': 'storage',
+    'Model Training': 'training',
+    'Hyperparameter Tuning': 'training',
+    'Model Management': 'registry',
+    'Model Deployment': 'orchestration',
+  };
+  return layerMap[layer] || 'training';
+}
 
 export default function ServicePage() {
   const { serviceId } = useParams<{ serviceId: string }>();
@@ -25,8 +40,9 @@ export default function ServicePage() {
   }
 
   const layerSlug = service.layer.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const consoleType = getConsoleType(service.layer);
 
-  // Get relevant exam questions (by service id and layer tag)
+  // Get 2-3 relevant exam questions from local data
   const relevantQuestions = [
     ...getQuestionsByTag(serviceId || ''),
     ...getQuestionsByTag(service.layer),
@@ -60,35 +76,42 @@ export default function ServicePage() {
           </BreadcrumbList>
         </Breadcrumb>
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <span className={`text-[10px] font-mono uppercase tracking-widest ${isExamLens ? 'text-primary' : 'text-secondary'}`}>{service.layer}</span>
-          <h1 className="text-2xl font-bold text-foreground">{service.name}</h1>
-        </motion.div>
-
-        <div className="space-y-6">
-          {/* Overview */}
-          <Section icon={<BookOpen size={16} />} title={isExamLens ? 'How This Is Tested' : 'How This Works'} isExamLens={isExamLens}>
-            <p className="text-sm text-foreground/80 leading-relaxed">
+        {/* ===== HERO SECTION ===== */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="mb-8 flex items-start gap-4"
+        >
+          <div 
+            className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
+            style={{
+              backgroundColor: `hsl(${getServiceColor(serviceId || '')} / 0.15)`,
+              border: `1px solid hsl(${getServiceColor(serviceId || '')} / 0.3)`,
+            }}
+          >
+            <ServiceIcon serviceId={serviceId || ''} size={28} />
+          </div>
+          <div>
+            <span className={`text-[10px] font-mono uppercase tracking-widest ${isExamLens ? 'text-primary' : 'text-secondary'}`}>
+              {service.layer}
+            </span>
+            <h1 className="text-2xl font-bold text-foreground">{service.name}</h1>
+            <p className="text-sm text-muted-foreground mt-1">
               {isExamLens ? service.exam : service.simple}
             </p>
+          </div>
+        </motion.div>
+
+        {/* ===== VISUAL BLUEPRINT ===== */}
+        <ServiceBlueprint serviceName={service.name} layer={service.layer} isExamLens={isExamLens} />
+
+        <div className="space-y-6 mt-6">
+          {/* ===== INTERACTIVE MOCK CONSOLE ===== */}
+          <Section title="AWS Console View" isExamLens={isExamLens}>
+            <MockConsole serviceType={consoleType} serviceName={service.name} />
           </Section>
 
-          {/* When to Use */}
-          <Section icon={<Lightbulb size={16} />} title="When to Use" isExamLens={isExamLens}>
-            <p className="text-sm text-foreground/80 leading-relaxed">{service.whenToUse}</p>
-          </Section>
-
-          {/* Console Screenshot Placeholder */}
-          <Section icon={<Monitor size={16} />} title="AWS Console View" isExamLens={isExamLens}>
-            <div className="rounded-lg border border-border bg-muted/30 p-8 text-center">
-              <Monitor size={32} className="text-muted-foreground mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground">AWS Console Screenshot — {service.name}</p>
-              <p className="text-[10px] text-muted-foreground mt-1">Visual reference for the actual AWS interface</p>
-            </div>
-          </Section>
-
-          {/* Exam Trap - Only prominent when Exam-Lens is ON */}
+          {/* ===== EXAM TRAP (prominent in Exam-Lens) ===== */}
           <AnimatePresence>
             {isExamLens ? (
               <motion.div
@@ -105,40 +128,25 @@ export default function ServicePage() {
                 </div>
               </motion.div>
             ) : (
-              <Section icon={<AlertTriangle size={16} />} title="Common Mistake" isExamLens={isExamLens} variant="warning">
+              <Section title="Common Mistake" isExamLens={isExamLens} variant="warning">
                 <p className="text-sm text-foreground/80 leading-relaxed">{service.examTrap}</p>
               </Section>
             )}
           </AnimatePresence>
 
-          {/* Related Services */}
-          <Section icon={<Layers size={16} />} title="Related & Alternative Services" isExamLens={isExamLens}>
-            <div className="flex flex-wrap gap-2">
-              {service.alternatives.map(alt => {
-                const altEntry = Object.values(servicesData).find(s => s.name === alt || s.id === alt.toLowerCase().replace(/\s+/g, '-'));
-                return altEntry ? (
-                  <Link
-                    key={alt}
-                    to={`/services/${altEntry.id}`}
-                    className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                      isExamLens
-                        ? 'bg-primary/5 text-primary border-primary/30 hover:border-primary/60'
-                        : 'bg-muted text-secondary border-border hover:border-secondary/40'
-                    }`}
-                  >
-                    {alt}
-                  </Link>
-                ) : (
-                  <span key={alt} className="text-xs px-3 py-1.5 rounded-full bg-muted text-muted-foreground border border-border">
-                    {alt}
-                  </span>
-                );
-              })}
-            </div>
-          </Section>
+          {/* ===== HOW IT'S TESTED (from examQuestions.ts) ===== */}
+          {relevantQuestions.length > 0 && (
+            <Section title={`How It's Tested (${relevantQuestions.length} Questions)`} isExamLens={isExamLens}>
+              <div className="space-y-3">
+                {relevantQuestions.map(q => (
+                  <ExamQuestionCard key={q.id} question={q} isExamLens={isExamLens} />
+                ))}
+              </div>
+            </Section>
+          )}
 
-          {/* Mini Quiz */}
-          <Section icon={<HelpCircle size={16} />} title="Quick Quiz" isExamLens={isExamLens}>
+          {/* ===== QUICK QUIZ ===== */}
+          <Section title="Quick Quiz" isExamLens={isExamLens}>
             <p className="text-sm font-medium text-foreground mb-3">{service.quiz.question}</p>
             <div className="space-y-2">
               {service.quiz.options.map((opt, idx) => {
@@ -181,17 +189,6 @@ export default function ServicePage() {
               </button>
             )}
           </Section>
-
-          {/* Relevant Exam Questions from Official Decks */}
-          {relevantQuestions.length > 0 && (
-            <Section icon={<FileQuestion size={16} />} title={`Official Exam Questions (${relevantQuestions.length})`} isExamLens={isExamLens}>
-              <div className="space-y-3">
-                {relevantQuestions.map(q => (
-                  <ExamQuestionCard key={q.id} question={q} isExamLens={isExamLens} />
-                ))}
-              </div>
-            </Section>
-          )}
         </div>
 
         {/* Back link */}
@@ -205,6 +202,57 @@ export default function ServicePage() {
   );
 }
 
+/* ===== VISUAL BLUEPRINT COMPONENT ===== */
+function ServiceBlueprint({ serviceName, layer, isExamLens }: { serviceName: string; layer: string; isExamLens: boolean }) {
+  const stagesBefore: Record<string, string> = {
+    'Data Storage': 'Data Sources',
+    'Data Ingestion': 'Data Storage',
+    'Data Processing': 'Data Ingestion',
+    'Feature Engineering': 'Data Processing',
+    'Feature Store': 'Feature Engineering',
+    'Model Training': 'Feature Store',
+    'Hyperparameter Tuning': 'Model Training',
+    'Model Evaluation': 'Hyperparameter Tuning',
+    'Model Management': 'Model Evaluation',
+    'Model Deployment': 'Model Management',
+    'Monitoring': 'Model Deployment',
+  };
+  
+  const stagesAfter: Record<string, string> = {
+    'Data Sources': 'Data Storage',
+    'Data Storage': 'Data Ingestion',
+    'Data Ingestion': 'Data Processing',
+    'Data Processing': 'Feature Engineering',
+    'Feature Engineering': 'Feature Store',
+    'Feature Store': 'Model Training',
+    'Model Training': 'Hyperparameter Tuning',
+    'Hyperparameter Tuning': 'Model Evaluation',
+    'Model Evaluation': 'Model Management',
+    'Model Management': 'Model Deployment',
+    'Model Deployment': 'Monitoring',
+  };
+
+  const before = stagesBefore[layer] || 'Input';
+  const after = stagesAfter[layer] || 'Output';
+
+  return (
+    <div className={`flex items-center justify-center gap-2 py-4 px-4 rounded-xl border ${
+      isExamLens ? 'border-primary/20 bg-primary/5' : 'border-border bg-muted/20'
+    }`}>
+      <span className="text-xs text-muted-foreground">{before}</span>
+      <ChevronRight size={14} className="text-muted-foreground" />
+      <span className={`text-sm font-bold px-3 py-1.5 rounded-lg ${
+        isExamLens ? 'bg-primary/20 text-primary' : 'bg-secondary/20 text-secondary'
+      }`}>
+        {serviceName}
+      </span>
+      <ChevronRight size={14} className="text-muted-foreground" />
+      <span className="text-xs text-muted-foreground">{after}</span>
+    </div>
+  );
+}
+
+/* ===== EXAM QUESTION CARD ===== */
 function ExamQuestionCard({ question, isExamLens }: { question: ExamQuestion; isExamLens: boolean }) {
   const [selected, setSelected] = useState<number | null>(null);
 
@@ -249,17 +297,19 @@ function ExamQuestionCard({ question, isExamLens }: { question: ExamQuestion; is
   );
 }
 
-function Section({ icon, title, children, isExamLens, variant }: {
-  icon: React.ReactNode; title: string; children: React.ReactNode; isExamLens: boolean; variant?: 'warning';
+/* ===== SECTION WRAPPER ===== */
+function Section({ title, children, isExamLens, variant }: {
+  title: string; children: React.ReactNode; isExamLens: boolean; variant?: 'warning';
 }) {
   return (
     <div className={`p-4 rounded-xl border ${
       variant === 'warning' ? 'border-yellow-500/20 bg-yellow-500/5' : 'border-border bg-card'
     }`}>
-      <div className="flex items-center gap-2 mb-3">
-        <span className={variant === 'warning' ? 'text-yellow-500' : isExamLens ? 'text-primary' : 'text-secondary'}>{icon}</span>
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{title}</h2>
-      </div>
+      <h2 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${
+        variant === 'warning' ? 'text-yellow-500' : 'text-muted-foreground'
+      }`}>
+        {title}
+      </h2>
       {children}
     </div>
   );
