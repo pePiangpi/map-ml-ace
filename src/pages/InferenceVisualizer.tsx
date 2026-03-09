@@ -4,6 +4,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { useLearning } from '@/context/LearningContext';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from '@/components/ui/breadcrumb';
 import { Radio, Clock, Zap, Timer, ArrowRight, AlertTriangle } from 'lucide-react';
+import RequirementSlider from '@/components/inference/RequirementSlider';
 
 const inferenceTypes = [
   {
@@ -201,6 +202,10 @@ export default function InferenceVisualizer() {
               </motion.div>
             );
           })}
+        </div>
+        {/* Trade-off Slider */}
+        <div className="mt-8">
+          <RequirementSlider />
         </div>
       </div>
     </PageLayout>

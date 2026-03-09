@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useLearning } from '@/context/LearningContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, BookOpen, Trophy, Home, Map, Search, Target, ArrowLeftRight, FileQuestion, Eye, EyeOff, Layers, Monitor } from 'lucide-react';
+import { Brain, BookOpen, Trophy, Home, Map, Search, Target, ArrowLeftRight, FileQuestion, Eye, EyeOff, Layers, Monitor, Network } from 'lucide-react';
 
 export default function TopBar() {
   const { mode, setMode, progress, completedTopics } = useLearning();
@@ -15,6 +15,7 @@ export default function TopBar() {
     { to: '/patterns', icon: <Target size={14} />, label: 'Patterns' },
     { to: '/compare', icon: <ArrowLeftRight size={14} />, label: 'Compare' },
     { to: '/visualizer', icon: <Monitor size={14} />, label: 'Inference' },
+    { to: '/scenarios', icon: <Network size={14} />, label: 'Scenarios' },
     { to: '/exam', icon: <FileQuestion size={14} />, label: 'Exam' },
   ];
 

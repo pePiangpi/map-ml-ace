@@ -29,6 +29,7 @@ export default function ServicePage() {
   const isExamLens = mode === 'exam';
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [consoleHighlight, setConsoleHighlight] = useState<string | null>(null);
 
   const service = serviceId ? servicesData[serviceId] : null;
   if (!service) {
@@ -42,11 +43,20 @@ export default function ServicePage() {
   const layerSlug = service.layer.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const consoleType = getConsoleType(service.layer);
 
-  // Get 2-3 relevant exam questions from local data
   const relevantQuestions = [
     ...getQuestionsByTag(serviceId || ''),
     ...getQuestionsByTag(service.layer),
   ].filter((q, i, arr) => arr.findIndex(x => x.id === q.id) === i).slice(0, 3);
+
+  // Map question IDs to console highlight keys
+  const questionHighlightMap: Record<number, string> = {
+    1: 'approval-status',
+    2: 'warm-pool',
+    3: 'approval-status',
+    4: 'pipe-mode',
+    101: 'approval-status',
+    51: 'warm-pool',
+  };
 
   const handleQuizAnswer = (idx: number) => {
     setQuizAnswer(idx);
@@ -54,6 +64,12 @@ export default function ServicePage() {
     if (idx === service.quiz.correct) {
       markComplete(service.layer);
     }
+  };
+
+  const handleQuestionSelect = (questionId: number) => {
+    const key = questionHighlightMap[questionId] || null;
+    setConsoleHighlight(key);
+    setTimeout(() => setConsoleHighlight(null), 3000);
   };
 
   return (
@@ -108,7 +124,7 @@ export default function ServicePage() {
         <div className="space-y-6 mt-6">
           {/* ===== INTERACTIVE MOCK CONSOLE ===== */}
           <Section title="AWS Console View" isExamLens={isExamLens}>
-            <MockConsole serviceType={consoleType} serviceName={service.name} />
+            <MockConsole serviceType={consoleType} serviceName={service.name} highlightElement={consoleHighlight} />
           </Section>
 
           {/* ===== EXAM TRAP (prominent in Exam-Lens) ===== */}
@@ -139,7 +155,7 @@ export default function ServicePage() {
             <Section title={`How It's Tested (${relevantQuestions.length} Questions)`} isExamLens={isExamLens}>
               <div className="space-y-3">
                 {relevantQuestions.map(q => (
-                  <ExamQuestionCard key={q.id} question={q} isExamLens={isExamLens} />
+                  <ExamQuestionCard key={q.id} question={q} isExamLens={isExamLens} onSelect={() => handleQuestionSelect(q.id)} />
                 ))}
               </div>
             </Section>
@@ -253,9 +269,14 @@ function ServiceBlueprint({ serviceName, layer, isExamLens }: { serviceName: str
 }
 
 /* ===== EXAM QUESTION CARD ===== */
-function ExamQuestionCard({ question, isExamLens }: { question: ExamQuestion; isExamLens: boolean }) {
+function ExamQuestionCard({ question, isExamLens, onSelect }: { question: ExamQuestion; isExamLens: boolean; onSelect?: () => void }) {
   const [selected, setSelected] = useState<number | null>(null);
 
+  const handleClick = (i: number) => {
+    if (selected !== null) return;
+    setSelected(i);
+    if (i === question.correct && onSelect) onSelect();
+  };
   return (
     <div className="p-3 rounded-lg border border-border bg-muted/20">
       <div className="flex items-center gap-2 mb-2">
@@ -282,7 +303,7 @@ function ExamQuestionCard({ question, isExamLens }: { question: ExamQuestion; is
             cls += 'border-border/30 text-muted-foreground bg-card';
           }
           return (
-            <button key={i} onClick={() => selected === null && setSelected(i)} className={cls} disabled={selected !== null}>
+            <button key={i} onClick={() => handleClick(i)} className={cls} disabled={selected !== null}>
               {String.fromCharCode(65 + i)}. {opt}
             </button>
           );

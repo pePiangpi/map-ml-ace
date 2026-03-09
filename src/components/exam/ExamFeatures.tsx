@@ -40,7 +40,7 @@ export function ExamPatterns() {
 }
 
 export function MockExam() {
-  const { mode } = useLearning();
+  const { mode, saveQuizScore } = useLearning();
   const isExamLens = mode === 'exam';
   const [started, setStarted] = useState(false);
   const [questions, setQuestions] = useState<ExamQuestion[]>([]);
@@ -60,6 +60,15 @@ export function MockExam() {
     setTimeLeft(30 * 60);
     setStarted(true);
   }, []);
+
+  // Persist score when results are shown
+  useEffect(() => {
+    if (showResults && questions.length > 0) {
+      const score = answers.filter((a, i) => a === questions[i]?.correct).length;
+      const pct = Math.round((score / questions.length) * 100);
+      saveQuizScore('mock-exam', pct);
+    }
+  }, [showResults]);
 
   // Timer
   useEffect(() => {
