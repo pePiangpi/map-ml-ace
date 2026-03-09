@@ -104,6 +104,7 @@ export function MockExam() {
     const score = answers.filter((a, i) => a === questions[i]?.correct).length;
     const pct = Math.round((score / questions.length) * 100);
     const passed = pct >= 70;
+    saveQuizScore('mock-exam', pct);
 
     return (
       <div className="p-6 max-w-3xl mx-auto">
