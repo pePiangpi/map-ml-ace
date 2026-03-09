@@ -12,6 +12,7 @@ import ExamPage from "./pages/ExamPage";
 import PatternsPage from "./pages/PatternsPage";
 import ComparePage from "./pages/ComparePage";
 import ServicesDirectory from "./pages/ServicesDirectory";
+import InferenceVisualizer from "./pages/InferenceVisualizer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/patterns" element={<PatternsPage />} />
             <Route path="/compare" element={<ComparePage />} />
             <Route path="/services" element={<ServicesDirectory />} />
+            <Route path="/visualizer" element={<InferenceVisualizer />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
