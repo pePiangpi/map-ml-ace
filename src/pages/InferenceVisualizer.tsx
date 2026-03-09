@@ -202,6 +202,10 @@ export default function InferenceVisualizer() {
             );
           })}
         </div>
+        {/* Trade-off Slider */}
+        <div className="mt-8">
+          <RequirementSlider />
+        </div>
       </div>
     </PageLayout>
   );
