@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/compare" element={<ComparePage />} />
             <Route path="/services" element={<ServicesDirectory />} />
             <Route path="/visualizer" element={<InferenceVisualizer />} />
+            <Route path="/scenarios" element={<ScenariosPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

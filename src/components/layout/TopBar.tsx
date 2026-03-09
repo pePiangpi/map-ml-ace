@@ -15,6 +15,7 @@ export default function TopBar() {
     { to: '/patterns', icon: <Target size={14} />, label: 'Patterns' },
     { to: '/compare', icon: <ArrowLeftRight size={14} />, label: 'Compare' },
     { to: '/visualizer', icon: <Monitor size={14} />, label: 'Inference' },
+    { to: '/scenarios', icon: <Network size={14} />, label: 'Scenarios' },
     { to: '/exam', icon: <FileQuestion size={14} />, label: 'Exam' },
   ];
 
