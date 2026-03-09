@@ -303,7 +303,7 @@ function ExamQuestionCard({ question, isExamLens, onSelect }: { question: ExamQu
             cls += 'border-border/30 text-muted-foreground bg-card';
           }
           return (
-            <button key={i} onClick={() => selected === null && setSelected(i)} className={cls} disabled={selected !== null}>
+            <button key={i} onClick={() => handleClick(i)} className={cls} disabled={selected !== null}>
               {String.fromCharCode(65 + i)}. {opt}
             </button>
           );
