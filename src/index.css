@@ -6,32 +6,32 @@
 
 @layer base {
   :root {
-    --background: 220 20% 7%;
+    --background: 216 28% 7%;
     --foreground: 210 20% 92%;
 
-    --card: 220 18% 10%;
+    --card: 216 25% 11%;
     --card-foreground: 210 20% 92%;
 
-    --popover: 220 18% 12%;
+    --popover: 216 25% 13%;
     --popover-foreground: 210 20% 92%;
 
     --primary: 28 100% 55%;
-    --primary-foreground: 220 20% 7%;
+    --primary-foreground: 216 28% 7%;
 
     --secondary: 210 80% 50%;
     --secondary-foreground: 210 20% 95%;
 
-    --muted: 220 15% 15%;
+    --muted: 216 20% 16%;
     --muted-foreground: 215 15% 55%;
 
     --accent: 28 90% 48%;
-    --accent-foreground: 220 20% 7%;
+    --accent-foreground: 216 28% 7%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
+    --border: 216 20% 18%;
+    --input: 216 20% 18%;
     --ring: 28 100% 55%;
 
     --radius: 0.75rem;
@@ -40,10 +40,10 @@
     --aws-orange-glow: 28 100% 65%;
     --aws-blue: 210 80% 50%;
     --aws-blue-glow: 210 80% 60%;
-    --aws-dark: 220 20% 7%;
-    --aws-surface: 220 18% 10%;
-    --aws-surface-hover: 220 18% 14%;
-    --aws-border-glow: 28 100% 55%;
+    --aws-squid: 216 28% 14%;
+    --aws-dark: 216 28% 7%;
+    --aws-surface: 216 25% 11%;
+    --aws-surface-hover: 216 25% 15%;
 
     --node-data: 200 70% 45%;
     --node-storage: 160 60% 40%;
@@ -57,13 +57,13 @@
     --node-deployment: 28 100% 55%;
     --node-monitoring: 0 70% 50%;
 
-    --sidebar-background: 220 20% 5%;
+    --sidebar-background: 216 28% 8%;
     --sidebar-foreground: 210 20% 85%;
     --sidebar-primary: 28 100% 55%;
-    --sidebar-primary-foreground: 220 20% 7%;
-    --sidebar-accent: 220 18% 12%;
+    --sidebar-primary-foreground: 216 28% 7%;
+    --sidebar-accent: 216 25% 13%;
     --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 220 15% 15%;
+    --sidebar-border: 216 20% 15%;
     --sidebar-ring: 28 100% 55%;
   }
 }
@@ -126,8 +126,14 @@
 .glow-blue {
   box-shadow: 0 0 20px hsl(var(--aws-blue) / 0.3), 0 0 60px hsl(var(--aws-blue) / 0.1);
 }
-.glow-node {
-  box-shadow: 0 4px 20px hsl(var(--aws-orange) / 0.15);
+
+/* Trap highlight */
+.trap-highlight {
+  @apply relative;
+}
+.trap-highlight::after {
+  content: '⚠️ TRAP';
+  @apply absolute -top-2 -right-2 text-[8px] font-bold bg-destructive text-destructive-foreground px-1.5 py-0.5 rounded-full;
 }
 
 @keyframes pulse-glow {
@@ -144,4 +150,9 @@
 }
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+/* Exam lens keyword highlighting */
+.exam-keyword {
+  @apply text-primary font-semibold underline decoration-primary/40 underline-offset-2;
 }
