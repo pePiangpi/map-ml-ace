@@ -22,14 +22,14 @@ export default function TopBar() {
     <motion.header
       initial={{ y: -60 }}
       animate={{ y: 0 }}
-      className={`h-14 border-b backdrop-blur-xl flex items-center justify-between px-4 z-40 relative shrink-0 transition-colors duration-500 ${
+      className={`h-14 border-b flex items-center justify-between px-4 z-40 relative shrink-0 transition-all duration-500 ${
         isExamLens
-          ? 'bg-card/60 border-primary/30'
-          : 'bg-card/60 border-border'
+          ? 'bg-card/70 border-primary/40 shadow-[0_4px_30px_hsl(var(--primary)/0.1)]'
+          : 'bg-card/70 border-border/50'
       }`}
       style={{
-        backdropFilter: 'blur(16px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
       }}
     >
       {/* Exam lens glow bar */}
