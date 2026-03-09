@@ -61,6 +61,15 @@ export function MockExam() {
     setStarted(true);
   }, []);
 
+  // Persist score when results are shown
+  useEffect(() => {
+    if (showResults && questions.length > 0) {
+      const score = answers.filter((a, i) => a === questions[i]?.correct).length;
+      const pct = Math.round((score / questions.length) * 100);
+      saveQuizScore('mock-exam', pct);
+    }
+  }, [showResults]);
+
   // Timer
   useEffect(() => {
     if (!started || showResults) return;
