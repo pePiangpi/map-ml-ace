@@ -124,7 +124,7 @@ export default function ServicePage() {
         <div className="space-y-6 mt-6">
           {/* ===== INTERACTIVE MOCK CONSOLE ===== */}
           <Section title="AWS Console View" isExamLens={isExamLens}>
-            <MockConsole serviceType={consoleType} serviceName={service.name} />
+            <MockConsole serviceType={consoleType} serviceName={service.name} highlightElement={consoleHighlight} />
           </Section>
 
           {/* ===== EXAM TRAP (prominent in Exam-Lens) ===== */}
