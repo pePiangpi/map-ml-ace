@@ -13,6 +13,7 @@ import PatternsPage from "./pages/PatternsPage";
 import ComparePage from "./pages/ComparePage";
 import ServicesDirectory from "./pages/ServicesDirectory";
 import InferenceVisualizer from "./pages/InferenceVisualizer";
+import ScenariosPage from "./pages/ScenariosPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
