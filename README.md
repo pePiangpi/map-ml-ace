@@ -18,4 +18,4 @@ An AI-integrated web application built with a modern frontend stack. This projec
 ## 👨‍💻 Author
 **Pau En Piang**
 * Aspiring AI Engineer | Computer Science Student
-* [LinkedIn](YOUR_LINKEDIN_URL](https://www.linkedin.com/in/pau-en-piang-/)) | [Portfolio](https://github.com/pePiangpi)
+* [LinkedIn](https://www.linkedin.com/in/pau-en-piang-/) | [Portfolio](https://github.com/pePiangpi)
