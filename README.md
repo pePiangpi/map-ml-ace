@@ -3,7 +3,7 @@
 An AI-assisted web application created using **Lovable** to explore machine learning concepts and AWS ML Associate topics.
 This project demonstrates how AI-powered development tools can be used to quickly prototype and build interactive web applications.
 
-🔗 **Launch Live Application**
+🔗 [Launch Live Application](https://map-ml-ace.lovable.app/)
 
 ## 🛠️ Tools & Technologies
 
